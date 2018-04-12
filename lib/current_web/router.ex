@@ -2,7 +2,7 @@ defmodule CurrentWeb.Router do
   use CurrentWeb, :router
 
   pipeline :api do
-    plug :trim_upcase
+   #plug :trim_upcase
     plug :accepts, ["json"]
   end
 
@@ -15,12 +15,14 @@ defmodule CurrentWeb.Router do
     
     get "/call/:title", TestController, :task
 
-    resources "/users", UserController, except: [:new, :edit]
+    post "/users", UserController, :create
 
   end
-  defp trim_upcase(conn, param) do
-    conn
-    |> String.trim("\n#{param}\n")
-    |> String.upcase()
-  end
+
+  #defp trim_upcase(conn, param) do
+   # conn
+    #|> String.trim("\n#{param}\n")
+    #|> String.upcase()
+  #end
+  
 end
