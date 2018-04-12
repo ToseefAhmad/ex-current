@@ -11,5 +11,7 @@ defmodule CurrentWeb.Router do
     post "/methods", TestController, :create
     get "/methods", TestController, :index
     get "/methods/:id", TestController, :show
+    
+    get "/call/:title", TestController, :task
   end
 end

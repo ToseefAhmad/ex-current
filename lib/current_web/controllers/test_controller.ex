@@ -39,4 +39,11 @@ defmodule CurrentWeb.TestController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def task(conn, %{"title" => title}) do
+    test = Current.Folder.Task.get_by_title(title)
+    render(conn, "show.json", test: test)
+  end
+    
+  
 end

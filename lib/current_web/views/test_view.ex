@@ -10,6 +10,8 @@ defmodule CurrentWeb.TestView do
     %{data: render_one(test, TestView, "test.json")}
   end
 
+  
+
   def render("test.json", %{test: test}) do
     %{id: test.id,
       title: test.title,
