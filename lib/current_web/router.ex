@@ -16,6 +16,8 @@ defmodule CurrentWeb.Router do
     get "/call/:title", TestController, :task
 
     post "/users", UserController, :create
+    post "/signin", UserController, :session
+    
 
   end
 

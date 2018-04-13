@@ -22,6 +22,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+  # Guardian config
+config :current, CurrentWeb.Guardian,
+issuer: "current",
+secret_key: "v3TsZSKiQ5eTVIIIwUSKa0zrQZVT99TOi8rdoUV8XSz7cZF2RgVfZ6/N6z5fPhGp"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

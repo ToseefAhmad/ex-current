@@ -3,6 +3,8 @@ defmodule CurrentWeb.UserController do
 
   alias Current.Admin
   alias Current.Admin.User
+  alias CurrentWeb.Guardian
+  alias Current.Admin.Auth
 
   action_fallback CurrentWeb.FallbackController
 
@@ -12,13 +14,26 @@ defmodule CurrentWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Admin.create_user(user_params) do
+    with {:ok, %User{} = user} <- Admin.create_user(user_params),
+    {:ok, token, _claims} <- Guardian.encode_and_sign(user)  do
       conn
       |> put_status(:created)
       #|> put_resp_header("location", user_path(conn, :show, user))
-      |> render("show.json", user: user)
+      |> render("jwt.json", jwt: token)
     end
   end
+
+  def session(conn, %{"username" => username, "password" => password}) do
+    case Auth.token_signin(username, password) do
+      {:ok, token, _claims} -> 
+        conn
+        |> render("jwt.json", jwt: token)
+        _ ->
+          {:error, :unauthorized}
+    end
+  end
+
+
 
   def show(conn, %{"id" => id}) do
     user = Admin.get_user!(id)
