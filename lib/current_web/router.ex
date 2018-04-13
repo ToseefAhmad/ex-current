@@ -6,19 +6,25 @@ defmodule CurrentWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :ensure_user do
+    plug Current.Admin.AuthPipeline
+  end
+
   scope "/api", CurrentWeb do
     pipe_through :api
 
     post "/methods", TestController, :create
     get "/methods", TestController, :index
     get "/methods/:id", TestController, :show
-    
     get "/call/:title", TestController, :task
+
+  end
+
+  scope "/api", CurrentWeb do
+    pipe_through [:api, :ensure_user]
 
     post "/users", UserController, :create
     post "/signin", UserController, :session
-    
-
   end
 
   #defp trim_upcase(conn, param) do
